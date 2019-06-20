@@ -16,76 +16,71 @@ test("ignores actions that do not match 'API_REQUEST'", () => {
   expect(store.getActions()).toEqual([{type: 'FOO'}]);
 });
 
-test('handles http success and dispatches actions with data as the payload', () => {
+test('handles http success and dispatches actions with data as the payload', async () => {
   axios.mockResolvedValue({
     data: 'some data',
   });
   const store = mockStore({});
-  return store
-    .dispatch({
-      API_REQUEST: {
-        type: 'TEST',
-        meta: {
-          url: 'http://foo.com',
-          method: 'get',
-        },
-      },
-    })
-    .then(() => {
-      expect(axios).toHaveBeenCalledWith({
+
+  await store.dispatch({
+    API_REQUEST: {
+      type: 'TEST',
+      meta: {
         url: 'http://foo.com',
         method: 'get',
-      });
-      expect(store.getActions()).toEqual([
-        {type: 'TEST_REQUEST'},
-        {type: 'TEST_SUCCESS', payload: 'some data'},
-      ]);
-    });
+      },
+    },
+  });
+
+  expect(axios).toHaveBeenCalledWith({
+    url: 'http://foo.com',
+    method: 'get',
+  });
+  expect(store.getActions()).toEqual([
+    {type: 'TEST_REQUEST'},
+    {type: 'TEST_SUCCESS', payload: 'some data'},
+  ]);
 });
 
-test('handles http failure and dispatches actions with error as the payload', () => {
+test('handles http failure and dispatches actions with error as the payload', async () => {
   axios.mockRejectedValue(new Error('api down'));
   const store = mockStore({});
-  return store
-    .dispatch({
-      API_REQUEST: {
-        type: 'TEST',
-        meta: {
-          url: 'http://foo.com',
-        },
+  await store.dispatch({
+    API_REQUEST: {
+      type: 'TEST',
+      meta: {
+        url: 'http://foo.com',
       },
-    })
-    .then(() => {
-      expect(store.getActions()).toEqual([
-        {type: 'TEST_REQUEST'},
-        {type: 'TEST_FAILURE', error: true, payload: new Error('api down')},
-      ]);
-    });
+    },
+  });
+  expect(store.getActions()).toEqual([
+    {type: 'TEST_REQUEST'},
+    {type: 'TEST_FAILURE', error: true, payload: new Error('api down')},
+  ]);
 });
 
-test('uses optional transformer on data before dispatching', () => {
+test('uses optional transformer on data before dispatching', async () => {
   axios.mockResolvedValue({
     data: 'some data',
   });
   const store = mockStore({});
   const transformerMock = jest.fn().mockReturnValue('transformed data');
-  return store
-    .dispatch({
-      API_REQUEST: {
-        type: 'TEST',
-        meta: {
-          url: 'http://foo.com',
-          transformer: transformerMock,
-        },
+
+  await store.dispatch({
+    API_REQUEST: {
+      type: 'TEST',
+      meta: {
+        url: 'http://foo.com',
+        transformer: transformerMock,
       },
-    })
-    .then(() => {
-      expect(transformerMock).toHaveBeenCalledWith('some data');
-      expect(store.getActions()).toEqual([
-        {type: 'TEST_REQUEST'},
-        {type: 'TEST_SUCCESS', payload: 'transformed data'},
-      ]);
-    });
+    },
+  });
+
+  expect(transformerMock).toHaveBeenCalledWith('some data');
+  expect(store.getActions()).toEqual([
+    {type: 'TEST_REQUEST'},
+    {type: 'TEST_SUCCESS', payload: 'transformed data'},
+  ]);
 });
 
 test('makeApiRequest returns a correctly formatted API_REQUEST action object', () => {
