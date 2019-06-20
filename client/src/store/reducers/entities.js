@@ -5,7 +5,6 @@ import {createNextState} from 'redux-starter-kit';
 
 const initialState = {
   users: {},
-  roles: {},
 };
 
 export default function entitiesReducer(state = initialState, action) {
