@@ -1,0 +1,13 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "json-server --port 5000 data.js"
+  },
+  "dependencies": {
+    "faker": "^4.1.0",
+    "json-server": "^0.15.0"
+  }
+}
