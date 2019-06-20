@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "faker": "^4.1.0",
-    "json-server": "^0.15.0"
-  }
+    "json-server": "^0.15.0",
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {}
 }
