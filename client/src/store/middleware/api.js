@@ -11,24 +11,31 @@ export default function apiMiddleware({dispatch}) {
       meta: {url, method, transformer},
     } = action['API_REQUEST'];
     next({type: `${type}_REQUEST`});
-    axios({
+    return axios({
       method,
       url,
-    }).then(
-      response => {
-        const data = isFunction(transformer)
-          ? transformer(response.data)
-          : response.data;
-        dispatch({type: `${type}_SUCCESS`, payload: data});
-      },
-      error => {
-        dispatch({type: `${type}_ERROR`, error: true, payload: error});
-      }
-    );
+    })
+      .then(
+        response => {
+          const data = isFunction(transformer)
+            ? transformer(response.data)
+            : response.data;
+          dispatch({type: `${type}_SUCCESS`, payload: data});
+        },
+        error => {
+          dispatch({type: `${type}_FAILURE`, error: true, payload: error});
+        }
+      )
+      .catch(e => console.error(e));
   };
 }
 
-export function makeApiRequest({method, url, type, transformer = x => x}) {
+export function makeApiRequest({
+  method = 'get',
+  url,
+  type,
+  transformer = x => x,
+}) {
   return {
     API_REQUEST: {
       type,
