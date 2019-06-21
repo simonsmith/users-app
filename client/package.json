@@ -9,15 +9,13 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
-    "react-scripts": "3.0.1",
     "redux": "^4.0.1",
     "redux-starter-kit": "^0.5.1"
   },
   "scripts": {
-    "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "parcel public/index.html",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "browserslist": {
     "production": [
@@ -41,6 +39,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
     "jest": "^24.8.0",
+    "parcel-bundler": "^1.12.3",
     "prettier": "^1.18.2",
     "redux-mock-store": "^1.5.3"
   }
