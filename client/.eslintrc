@@ -3,13 +3,15 @@
   "extends": [
     "eslint:recommended",
     "plugin:prettier/recommended",
-    "plugin:flowtype/recommended",
     "plugin:react/recommended"
   ],
   "plugins": [
     "prettier",
     "jsx-a11y"
   ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "env": {
     "node": true,
     "es6": true,
