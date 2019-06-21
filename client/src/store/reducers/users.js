@@ -10,7 +10,7 @@ export default createReducer(initialState, {
   USERS_REQUEST: state => {
     state.isLoading = true;
   },
-  USERS_SUCCESS: (state, action) => {
+  USERS_GET_SUCCESS: (state, action) => {
     state.isLoading = false;
     state.result = action.payload.result;
   },

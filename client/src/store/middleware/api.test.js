@@ -38,7 +38,7 @@ test('handles http success and dispatches actions with data as the payload', asy
   });
   expect(store.getActions()).toEqual([
     {type: 'TEST_REQUEST'},
-    {type: 'TEST_SUCCESS', payload: 'some data'},
+    {type: 'TEST_GET_SUCCESS', payload: 'some data'},
   ]);
 });
 
@@ -50,6 +50,7 @@ test('handles http failure and dispatches actions with error as the payload', as
       type: 'TEST',
       meta: {
         url: 'http://foo.com',
+        method: 'get',
       },
     },
   });
@@ -72,6 +73,7 @@ test('uses optional transformer on data before dispatching', async () => {
       meta: {
         url: 'http://foo.com',
         transformer: transformerMock,
+        method: 'get',
       },
     },
   });
@@ -79,7 +81,7 @@ test('uses optional transformer on data before dispatching', async () => {
   expect(transformerMock).toHaveBeenCalledWith('some data');
   expect(store.getActions()).toEqual([
     {type: 'TEST_REQUEST'},
-    {type: 'TEST_SUCCESS', payload: 'transformed data'},
+    {type: 'TEST_GET_SUCCESS', payload: 'transformed data'},
   ]);
 });
 

@@ -20,7 +20,7 @@ test('handles success action', () => {
     isLoading: true,
   };
   const afterState = usersReducer(beforeState, {
-    type: 'USERS_SUCCESS',
+    type: 'USERS_GET_SUCCESS',
     payload: {result: [1, 2, 3]},
   });
 

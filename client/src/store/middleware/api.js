@@ -20,7 +20,10 @@ export default function apiMiddleware({dispatch}) {
           const data = isFunction(transformer)
             ? transformer(response.data)
             : response.data;
-          dispatch({type: `${type}_SUCCESS`, payload: data});
+          dispatch({
+            type: `${type}_${method.toUpperCase()}_SUCCESS`,
+            payload: data,
+          });
         },
         error => {
           dispatch({type: `${type}_FAILURE`, error: true, payload: error});
