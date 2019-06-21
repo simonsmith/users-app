@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handles failure action 1`] = `
+Object {
+  "error": [Error: fail],
+  "isLoading": false,
+}
+`;
+
+exports[`should handle no state being passed 1`] = `
+Object {
+  "error": null,
+  "isLoading": false,
+  "result": Array [],
+}
+`;
