@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`calls makeApiRequest with the correct arguments 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "transformer": [Function],
+        "type": "USERS",
+        "url": "http://localhost:5000/users",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`transforms data with normalizr 1`] = `
+Object {
+  "entities": Object {
+    "role": Object {
+      "777": Object {
+        "id": "777",
+        "title": "cleaner",
+      },
+      "888": Object {
+        "id": "888",
+        "title": "hr",
+      },
+      "999": Object {
+        "id": "999",
+        "title": "hr",
+      },
+    },
+    "users": Object {
+      "123": Object {
+        "id": "123",
+        "name": "foo",
+        "role": "999",
+      },
+      "456": Object {
+        "id": "456",
+        "name": "bar",
+        "role": "888",
+      },
+      "789": Object {
+        "id": "789",
+        "name": "baz",
+        "role": "777",
+      },
+    },
+  },
+  "result": Array [
+    "123",
+    "456",
+    "789",
+  ],
+}
+`;
