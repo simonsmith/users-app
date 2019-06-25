@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducer stores the error and response 1`] = `
+Object {
+  "message": "Error: oh no",
+  "response": Object {
+    "foo": "bar",
+  },
+}
+`;
