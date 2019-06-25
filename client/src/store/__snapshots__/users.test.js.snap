@@ -1,6 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`actions transforms data with normalizr 1`] = `
+exports[`reducer handle no state being passed 1`] = `
+Object {
+  "result": Array [],
+}
+`;
+
+exports[`requestAllUsers action creator transforms data with normalizr 1`] = `
 Object {
   "payload": Object {
     "entities": Object {
@@ -43,11 +49,5 @@ Object {
     ],
   },
   "type": "FETCH_USERS_SUCCESS",
-}
-`;
-
-exports[`reducer handle no state being passed 1`] = `
-Object {
-  "result": Array [],
 }
 `;

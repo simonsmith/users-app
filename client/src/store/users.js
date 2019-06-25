@@ -3,6 +3,7 @@ import {normalize, schema} from 'normalizr';
 import {apiRequest} from './middleware/api';
 
 export const FETCH_USERS = 'FETCH_USERS';
+export const CREATE_USER = 'CREATE_USER';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
 
 const role = new schema.Entity('role');
@@ -15,6 +16,14 @@ function normalizeUsers({data}) {
     type: FETCH_USERS_SUCCESS,
     payload: normalize(data, [user]),
   };
+}
+
+export function createNewUser(user) {
+  return apiRequest('/users', CREATE_USER, {
+    onSuccess: requestAllUsers,
+    method: 'POST',
+    data: user,
+  });
 }
 
 export function requestAllUsers() {

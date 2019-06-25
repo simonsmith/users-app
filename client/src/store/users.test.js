@@ -1,9 +1,14 @@
-import {requestAllUsers, usersReducer, FETCH_USERS_SUCCESS} from './users';
+import {
+  requestAllUsers,
+  createNewUser,
+  usersReducer,
+  FETCH_USERS_SUCCESS,
+} from './users';
 import {apiRequest} from './middleware/api';
 
 jest.mock('./middleware/api');
 
-describe('actions', () => {
+describe('requestAllUsers action creator', () => {
   test('calls apiRequest with the correct arguments', () => {
     requestAllUsers();
     expect(apiRequest).toHaveBeenCalledWith('/users', 'FETCH_USERS', {
@@ -20,6 +25,17 @@ describe('actions', () => {
     requestAllUsers();
     const {onSuccess} = apiRequest.mock.calls[0][2];
     expect(onSuccess({data})).toMatchSnapshot();
+  });
+});
+
+describe('createNewUser action creator', () => {
+  test('calls apiRequest with the correct arguments', () => {
+    createNewUser({name: 'simon', email: 'me@foo.com'});
+    expect(apiRequest).toHaveBeenCalledWith('/users', 'CREATE_USER', {
+      onSuccess: expect.any(Function),
+      method: 'POST',
+      data: {name: 'simon', email: 'me@foo.com'},
+    });
   });
 });
 
