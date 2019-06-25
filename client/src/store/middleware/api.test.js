@@ -1,5 +1,5 @@
 import axios from 'axios';
-import apiMiddleware, {makeApiRequest} from './api';
+import apiMiddleware, {apiRequest} from './api';
 import configureMockStore from 'redux-mock-store';
 
 jest.mock('axios');
@@ -10,83 +10,122 @@ afterEach(() => {
   axios.mockClear();
 });
 
-test("ignores actions that do not match 'API_REQUEST'", () => {
+test('ignores actions that do not match the correct API format', () => {
   const store = mockStore({});
   store.dispatch({type: 'FOO'});
   expect(store.getActions()).toEqual([{type: 'FOO'}]);
 });
 
-test('handles http success and dispatches actions with data as the payload', async () => {
-  axios.mockResolvedValue({
-    data: 'some data',
-  });
+test('dispatches the result of onSuccess when request is successful', async () => {
+  axios.mockResolvedValue('done');
   const store = mockStore({});
 
+  const onSuccess = jest.fn().mockImplementation(() => ({
+    type: 'SUCCESS',
+  }));
+
   await store.dispatch({
-    API_REQUEST: {
-      type: 'TEST',
-      meta: {
-        url: 'http://foo.com',
-        method: 'get',
+    API: {
+      type: 'some-fetch',
+      payload: {
+        url: 'foo.com',
+        onSuccess,
+        foo: 'bar',
       },
     },
   });
 
-  expect(axios).toHaveBeenCalledWith({
-    url: 'http://foo.com',
-    method: 'get',
-  });
+  expect(axios.mock.calls).toMatchSnapshot();
+  expect(onSuccess).toHaveBeenCalledWith('done');
   expect(store.getActions()).toEqual([
-    {type: 'TEST_REQUEST'},
-    {type: 'TEST_GET_SUCCESS', payload: 'some data'},
+    {type: 'API_REQUEST_START', payload: 'some-fetch'},
+    {type: 'SUCCESS'},
+    {type: 'API_REQUEST_END', payload: 'some-fetch'},
   ]);
 });
 
-test('handles http failure and dispatches actions with error as the payload', async () => {
-  axios.mockRejectedValue(new Error('api down'));
+test('does not dispatch on success if the onSuccess func is absent from payload', async () => {
+  axios.mockResolvedValue('done');
   const store = mockStore({});
-  await store.dispatch({
-    API_REQUEST: {
-      type: 'TEST',
-      meta: {
-        url: 'http://foo.com',
-        method: 'get',
-      },
-    },
-  });
-  expect(store.getActions()).toEqual([
-    {type: 'TEST_REQUEST'},
-    {type: 'TEST_FAILURE', error: true, payload: new Error('api down')},
-  ]);
-});
-
-test('uses optional transformer on data before dispatching', async () => {
-  axios.mockResolvedValue({
-    data: 'some data',
-  });
-  const store = mockStore({});
-  const transformerMock = jest.fn().mockReturnValue('transformed data');
 
   await store.dispatch({
-    API_REQUEST: {
-      type: 'TEST',
-      meta: {
-        url: 'http://foo.com',
-        transformer: transformerMock,
-        method: 'get',
-      },
+    API: {
+      type: 'some-fetch',
+      payload: {},
     },
   });
 
-  expect(transformerMock).toHaveBeenCalledWith('some data');
   expect(store.getActions()).toEqual([
-    {type: 'TEST_REQUEST'},
-    {type: 'TEST_GET_SUCCESS', payload: 'transformed data'},
+    {type: 'API_REQUEST_START', payload: 'some-fetch'},
+    {type: 'API_REQUEST_END', payload: 'some-fetch'},
   ]);
 });
 
-test('makeApiRequest returns a correctly formatted API_REQUEST action object', () => {
-  expect(
-    makeApiRequest({url: 'foo', type: 'FOO', transformer: jest.fn()})
-  ).toMatchSnapshot();
+test('dispatches the result of onFailure when request is unsuccessful', async () => {
+  const error = new Error('fail');
+  axios.mockRejectedValue(error);
+  const store = mockStore({});
+
+  const onFailure = jest.fn().mockImplementation(() => ({
+    type: 'FAIL',
+  }));
+
+  await store.dispatch({
+    API: {
+      type: 'some-fetch',
+      payload: {
+        onFailure,
+      },
+    },
+  });
+
+  expect(onFailure).toHaveBeenCalledWith(error);
+  expect(store.getActions()).toEqual([
+    {type: 'API_REQUEST_START', payload: 'some-fetch'},
+    {type: 'API_REQUEST_FAILURE', error: true, payload: error},
+    {type: 'FAIL'},
+    {type: 'API_REQUEST_END', payload: 'some-fetch'},
+  ]);
+});
+
+test('does not dispatch on failure if the onFailure func is absent from payload', async () => {
+  const error = new Error('fail');
+  axios.mockRejectedValue(error);
+  const store = mockStore({});
+
+  await store.dispatch({
+    API: {
+      type: 'some-fetch',
+      payload: {},
+    },
+  });
+
+  expect(store.getActions()).toEqual([
+    {type: 'API_REQUEST_START', payload: 'some-fetch'},
+    {type: 'API_REQUEST_FAILURE', error: true, payload: error},
+    {type: 'API_REQUEST_END', payload: 'some-fetch'},
+  ]);
+});
+
+describe('apiRequest action creator', () => {
+  test('handles invalid arguments', () => {
+    expect(() => {
+      apiRequest();
+    }).toThrow();
+    expect(() => {
+      apiRequest('foo', {}, {});
+    }).toThrow();
+    expect(() => {
+      apiRequest(null, '', {});
+    }).toThrow();
+  });
+
+  test('creates a valid API action object', () => {
+    expect(
+      apiRequest('foo.com', 'ACTION_TYPE', {
+        option: 'value',
+        method: 'POST',
+      })
+    ).toMatchSnapshot();
+  });
 });

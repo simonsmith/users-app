@@ -1,6 +1,6 @@
-import entitiesReducer from './entities';
+import {entitiesReducer} from './entities';
 
-test('should handle no state being passed', () => {
+test('handle no state being passed', () => {
   expect(entitiesReducer(undefined, {})).toMatchSnapshot();
 });
 

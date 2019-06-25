@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should handle no state being passed 1`] = `
+exports[`handle no state being passed 1`] = `
 Object {
   "users": Object {},
 }

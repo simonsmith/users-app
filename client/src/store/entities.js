@@ -7,7 +7,7 @@ const initialState = {
   users: {},
 };
 
-export default function entitiesReducer(state = initialState, action) {
+export function entitiesReducer(state = initialState, action) {
   return createNextState(state, draft => {
     const entities = get('payload.entities', action);
     if (isObject(entities)) {

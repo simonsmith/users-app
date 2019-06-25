@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`actions transforms data with normalizr 1`] = `
+Object {
+  "payload": Object {
+    "entities": Object {
+      "role": Object {
+        "777": Object {
+          "id": "777",
+          "title": "cleaner",
+        },
+        "888": Object {
+          "id": "888",
+          "title": "hr",
+        },
+        "999": Object {
+          "id": "999",
+          "title": "hr",
+        },
+      },
+      "users": Object {
+        "123": Object {
+          "id": "123",
+          "name": "foo",
+          "role": "999",
+        },
+        "456": Object {
+          "id": "456",
+          "name": "bar",
+          "role": "888",
+        },
+        "789": Object {
+          "id": "789",
+          "name": "baz",
+          "role": "777",
+        },
+      },
+    },
+    "result": Array [
+      "123",
+      "456",
+      "789",
+    ],
+  },
+  "type": "USERS_SUCCESS",
+}
+`;
+
+exports[`reducer handle no state being passed 1`] = `
+Object {
+  "result": Array [],
+}
+`;

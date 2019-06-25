@@ -1,48 +1,72 @@
 import axios from 'axios';
-import {isFunction} from 'lodash-fp';
+
+const BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000/';
+
+function isFunction(f) {
+  return typeof f == 'function';
+}
+
+function isString(f) {
+  return typeof f == 'string';
+}
 
 export default function apiMiddleware({dispatch}) {
   return next => action => {
-    if (!action['API_REQUEST']) {
+    if (!action.API) {
       return next(action);
     }
+
     const {
       type,
-      meta: {url, method, transformer},
-    } = action['API_REQUEST'];
-    next({type: `${type}_REQUEST`});
+      payload: {url, method, onSuccess, onFailure, ...restConfig},
+    } = action.API;
+
+    dispatch({
+      type: 'API_REQUEST_START',
+      payload: type,
+    });
+
     return axios({
-      method,
+      baseURL: BASE_URL,
       url,
+      method,
+      ...restConfig,
     })
       .then(
         response => {
-          const data = isFunction(transformer)
-            ? transformer(response.data)
-            : response.data;
-          dispatch({
-            type: `${type}_${method.toUpperCase()}_SUCCESS`,
-            payload: data,
-          });
+          if (isFunction(onSuccess)) {
+            dispatch(onSuccess(response));
+          }
         },
         error => {
-          dispatch({type: `${type}_FAILURE`, error: true, payload: error});
+          dispatch({type: 'API_REQUEST_FAILURE', payload: error, error: true});
+          if (isFunction(onFailure)) {
+            dispatch(onFailure(error));
+          }
         }
       )
-      .catch(e => console.error(e));
+      .finally(() => dispatch({type: 'API_REQUEST_END', payload: type}));
   };
 }
 
-export function makeApiRequest({
-  method = 'get',
+export function apiRequest(
   url,
   type,
-  transformer = x => x,
-}) {
+  {method = 'GET', onSuccess, onFailure, ...rest} = {}
+) {
+  if (!isString(url) || !isString(type)) {
+    throw new Error('API request requires a valid type and url');
+  }
   return {
-    API_REQUEST: {
+    API: {
       type,
-      meta: {method, url, transformer},
+      payload: {
+        url,
+        method,
+        onSuccess,
+        onFailure,
+        ...rest,
+      },
     },
   };
 }

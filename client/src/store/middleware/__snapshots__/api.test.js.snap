@@ -1,14 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`makeApiRequest returns a correctly formatted API_REQUEST action object 1`] = `
+exports[`apiRequest action creator creates a valid API action object 1`] = `
 Object {
-  "API_REQUEST": Object {
-    "meta": Object {
-      "method": "get",
-      "transformer": [MockFunction],
-      "url": "foo",
+  "API": Object {
+    "payload": Object {
+      "method": "POST",
+      "onFailure": undefined,
+      "onSuccess": undefined,
+      "option": "value",
+      "url": "foo.com",
     },
-    "type": "FOO",
+    "type": "ACTION_TYPE",
   },
 }
+`;
+
+exports[`dispatches the result of onSuccess when request is successful 1`] = `
+Array [
+  Array [
+    Object {
+      "baseURL": "http://localhost:5000/",
+      "foo": "bar",
+      "method": undefined,
+      "url": "foo.com",
+    },
+  ],
+]
 `;

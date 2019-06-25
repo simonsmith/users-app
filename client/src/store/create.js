@@ -1,6 +1,8 @@
 import {configureStore} from 'redux-starter-kit';
-import users from './reducers/users';
-import entities from './reducers/entities';
+import {usersReducer as users} from './users';
+import {entitiesReducer as entities} from './entities';
+import {loadingReducer as loading} from './loading';
+import {errorReducer as error} from './error';
 import apiMiddleware from './middleware/api';
 
 export default function() {
@@ -8,6 +10,8 @@ export default function() {
     reducer: {
       entities,
       users,
+      loading,
+      error,
     },
     middleware: [apiMiddleware],
   });
