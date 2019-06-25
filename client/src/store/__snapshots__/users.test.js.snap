@@ -42,7 +42,7 @@ Object {
       "789",
     ],
   },
-  "type": "USERS_SUCCESS",
+  "type": "FETCH_USERS_SUCCESS",
 }
 `;
 

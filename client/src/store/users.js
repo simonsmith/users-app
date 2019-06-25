@@ -3,7 +3,7 @@ import {normalize, schema} from 'normalizr';
 import {apiRequest} from './middleware/api';
 
 export const FETCH_USERS = 'FETCH_USERS';
-export const USERS_SUCCESS = 'USERS_SUCCESS';
+export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
 
 const role = new schema.Entity('role');
 const user = new schema.Entity('users', {
@@ -12,7 +12,7 @@ const user = new schema.Entity('users', {
 
 function normalizeUsers({data}) {
   return {
-    type: USERS_SUCCESS,
+    type: FETCH_USERS_SUCCESS,
     payload: normalize(data, [user]),
   };
 }
@@ -28,7 +28,7 @@ const initialState = {
 };
 
 export const usersReducer = createReducer(initialState, {
-  USERS_SUCCESS: (state, action) => {
+  [FETCH_USERS_SUCCESS]: (state, action) => {
     state.result = action.payload.result;
   },
 });

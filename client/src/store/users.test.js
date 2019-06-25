@@ -1,4 +1,4 @@
-import {requestAllUsers, usersReducer} from './users';
+import {requestAllUsers, usersReducer, FETCH_USERS_SUCCESS} from './users';
 import {apiRequest} from './middleware/api';
 
 jest.mock('./middleware/api');
@@ -33,7 +33,7 @@ describe('reducer', () => {
       result: [],
     };
     const afterState = usersReducer(beforeState, {
-      type: 'USERS_SUCCESS',
+      type: FETCH_USERS_SUCCESS,
       payload: {result: [1, 2, 3]},
     });
 
