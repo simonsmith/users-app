@@ -6,6 +6,7 @@ function createUser() {
   return {
     id: nanoid(7),
     name: faker.name.findName(),
+    avatar: 'https://via.placeholder.com/100',
     username: faker.internet.userName(),
     email: faker.internet.email(),
     phone: faker.phone.phoneNumber(),
