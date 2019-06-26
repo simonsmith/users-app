@@ -3,6 +3,8 @@ import {
   createNewUser,
   usersReducer,
   FETCH_USERS_SUCCESS,
+  CREATE_USER,
+  FETCH_USERS,
 } from './users';
 import {apiRequest} from './middleware/api';
 
@@ -11,8 +13,9 @@ jest.mock('./middleware/api');
 describe('requestAllUsers action creator', () => {
   test('calls apiRequest with the correct arguments', () => {
     requestAllUsers();
-    expect(apiRequest).toHaveBeenCalledWith('/users', 'FETCH_USERS', {
+    expect(apiRequest).toHaveBeenCalledWith('/users', {
       onSuccess: expect.any(Function),
+      type: FETCH_USERS,
     });
   });
 
@@ -23,7 +26,7 @@ describe('requestAllUsers action creator', () => {
       {id: '789', name: 'baz', role: {id: '777', title: 'cleaner'}},
     ];
     requestAllUsers();
-    const {onSuccess} = apiRequest.mock.calls[0][2];
+    const {onSuccess} = apiRequest.mock.calls[0][1];
     expect(onSuccess({data})).toMatchSnapshot();
   });
 });
@@ -31,8 +34,9 @@ describe('requestAllUsers action creator', () => {
 describe('createNewUser action creator', () => {
   test('calls apiRequest with the correct arguments', () => {
     createNewUser({name: 'simon', email: 'me@foo.com'});
-    expect(apiRequest).toHaveBeenCalledWith('/users', 'CREATE_USER', {
+    expect(apiRequest).toHaveBeenCalledWith('/users', {
       onSuccess: expect.any(Function),
+      type: CREATE_USER,
       method: 'POST',
       data: {name: 'simon', email: 'me@foo.com'},
     });

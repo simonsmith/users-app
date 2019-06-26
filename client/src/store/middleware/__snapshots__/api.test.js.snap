@@ -5,12 +5,10 @@ Object {
   "API": Object {
     "payload": Object {
       "method": "POST",
-      "onFailure": undefined,
-      "onSuccess": undefined,
       "option": "value",
+      "type": "ACTION_TYPE",
       "url": "foo.com",
     },
-    "type": "ACTION_TYPE",
   },
 }
 `;
@@ -21,7 +19,6 @@ Array [
     Object {
       "baseURL": "http://localhost:5000/",
       "foo": "bar",
-      "method": undefined,
       "url": "foo.com",
     },
   ],

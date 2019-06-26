@@ -19,7 +19,8 @@ function normalizeUsers({data}) {
 }
 
 export function createNewUser(user) {
-  return apiRequest('/users', CREATE_USER, {
+  return apiRequest('/users', {
+    type: CREATE_USER,
     onSuccess: requestAllUsers,
     method: 'POST',
     data: user,
@@ -27,7 +28,8 @@ export function createNewUser(user) {
 }
 
 export function requestAllUsers() {
-  return apiRequest('/users', FETCH_USERS, {
+  return apiRequest('/users', {
+    type: FETCH_USERS,
     onSuccess: normalizeUsers,
   });
 }

@@ -26,8 +26,8 @@ test('dispatches the result of onSuccess when request is successful', async () =
 
   await store.dispatch({
     API: {
-      type: 'some-fetch',
       payload: {
+        type: 'some-fetch',
         url: 'foo.com',
         onSuccess,
         foo: 'bar',
@@ -50,8 +50,9 @@ test('does not dispatch on success if the onSuccess func is absent from payload'
 
   await store.dispatch({
     API: {
-      type: 'some-fetch',
-      payload: {},
+      payload: {
+        type: 'some-fetch',
+      },
     },
   });
 
@@ -72,8 +73,8 @@ test('dispatches the result of onFailure when request is unsuccessful', async ()
 
   await store.dispatch({
     API: {
-      type: 'some-fetch',
       payload: {
+        type: 'some-fetch',
         onFailure,
       },
     },
@@ -95,8 +96,9 @@ test('does not dispatch on failure if the onFailure func is absent from payload'
 
   await store.dispatch({
     API: {
-      type: 'some-fetch',
-      payload: {},
+      payload: {
+        type: 'some-fetch',
+      },
     },
   });
 
@@ -113,17 +115,15 @@ describe('apiRequest action creator', () => {
       apiRequest();
     }).toThrow();
     expect(() => {
-      apiRequest('foo', {}, {});
-    }).toThrow();
-    expect(() => {
-      apiRequest(null, '', {});
+      apiRequest(null);
     }).toThrow();
   });
 
   test('creates a valid API action object', () => {
     expect(
-      apiRequest('foo.com', 'ACTION_TYPE', {
+      apiRequest('foo.com', {
         option: 'value',
+        type: 'ACTION_TYPE',
         method: 'POST',
       })
     ).toMatchSnapshot();

@@ -17,19 +17,18 @@ export default function apiMiddleware({dispatch}) {
     }
 
     const {
-      type,
-      payload: {url, method, onSuccess, onFailure, ...restConfig},
+      payload: {type, onSuccess, onFailure, ...restConfig},
     } = action.API;
 
-    dispatch({
-      type: 'API_REQUEST_START',
-      payload: type,
-    });
+    if (type) {
+      dispatch({
+        type: 'API_REQUEST_START',
+        payload: type,
+      });
+    }
 
     return axios({
       baseURL: BASE_URL,
-      url,
-      method,
       ...restConfig,
     })
       .then(
@@ -45,26 +44,24 @@ export default function apiMiddleware({dispatch}) {
           }
         }
       )
-      .finally(() => dispatch({type: 'API_REQUEST_END', payload: type}));
+      .finally(() => {
+        if (type) {
+          dispatch({type: 'API_REQUEST_END', payload: type});
+        }
+      });
   };
 }
 
-export function apiRequest(
-  url,
-  type,
-  {method = 'GET', onSuccess, onFailure, ...rest} = {}
-) {
-  if (!isString(url) || !isString(type)) {
-    throw new Error('API request requires a valid type and url');
+export function apiRequest(url, {method = 'GET', type, ...rest} = {}) {
+  if (!isString(url)) {
+    throw new Error('API request requires a url');
   }
   return {
     API: {
-      type,
       payload: {
+        type,
         url,
         method,
-        onSuccess,
-        onFailure,
         ...rest,
       },
     },
