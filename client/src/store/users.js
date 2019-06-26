@@ -43,3 +43,16 @@ export const usersReducer = createReducer(initialState, {
     state.result = action.payload.result;
   },
 });
+
+export function selectUsers(state) {
+  return {
+    result: state.users.result,
+    entities: state.entities.users,
+  };
+}
+
+export function selectRoles(state) {
+  return {
+    entities: state.entities.role,
+  };
+}
