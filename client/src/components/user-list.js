@@ -1,6 +1,7 @@
-import React from 'react';
-import {selectUsers, selectRoles} from '../store/users';
+import React, {useEffect} from 'react';
+import {selectUsers, selectRoles, requestAllUsers} from '../store/users';
 import {User} from './user';
+import {useDispatch} from 'react-redux';
 import {useShallowEqualSelector} from '../util/use-shallow-equal-selector';
 
 export function UserList() {
@@ -8,6 +9,10 @@ export function UserList() {
     selectUsers
   );
   const {entities: roleEntities} = useShallowEqualSelector(selectRoles);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(requestAllUsers());
+  }, [dispatch]);
 
   return (
     <ul>
