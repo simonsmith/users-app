@@ -1,9 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {shallow} from 'enzyme';
 import {UserList} from './user-list';
 import {useShallowEqualSelector} from '../util/use-shallow-equal-selector';
 
 jest.mock('../util/use-shallow-equal-selector');
+jest.mock('react-redux');
+jest.mock('../store/users', () => ({
+  ...jest.requireActual('../store/users'),
+  requestAllUsers: jest.fn(),
+}));
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useEffect: jest.fn(),
+}));
 
 test('renders users from the store', () => {
   useShallowEqualSelector
@@ -28,4 +38,5 @@ test('renders users from the store', () => {
       },
     });
   expect(shallow(<UserList />)).toMatchSnapshot();
+  expect(useEffect).toHaveBeenCalled();
 });
