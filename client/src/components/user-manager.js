@@ -13,7 +13,7 @@ export function UserManager() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(requestAllUsers());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
