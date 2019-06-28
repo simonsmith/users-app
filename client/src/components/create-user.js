@@ -1,20 +1,19 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {createNewUser, selectRoles} from '../store/users';
-import {useShallowEqualSelector} from '../util/use-shallow-equal-selector';
+import {createNewUser} from '../store/users';
 import {Input, Select} from './form';
 
-export function CreateUser() {
-  const [inputState, setInputState] = useState({
+export function CreateUser({roleEntities}) {
+  const initialInputValues = {
     name: '',
     username: '',
     email: '',
     phone: '',
     website: '',
     role: '',
-  });
+  };
+  const [inputState, setInputState] = useState(initialInputValues);
   const dispatch = useDispatch();
-  const {entities: roleEntities} = useShallowEqualSelector(selectRoles);
 
   const handleInputChange = event => {
     const {value, id} = event.target;
@@ -23,7 +22,13 @@ export function CreateUser() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch(createNewUser(inputState));
+    const newUser = {
+      ...inputState,
+      role: roleEntities[inputState.role],
+    };
+    dispatch(createNewUser(newUser)).then(() =>
+      setInputState(initialInputValues)
+    );
   };
 
   return (
@@ -66,14 +71,13 @@ export function CreateUser() {
         id="role"
         labelText="Select a role"
       >
-        {roleEntities &&
-          Object.entries(roleEntities).map(([id, role]) => {
-            return (
-              <option key={id} value={id}>
-                {role.title}
-              </option>
-            );
-          })}
+        {Object.entries(roleEntities).map(([id, role]) => {
+          return (
+            <option key={id} value={id}>
+              {role.title}
+            </option>
+          );
+        })}
       </Select>
       <button>Create</button>
     </form>

@@ -36,6 +36,7 @@ export default function apiMiddleware({dispatch}) {
           if (isFunction(onSuccess)) {
             dispatch(onSuccess(response));
           }
+          return response;
         },
         error => {
           dispatch({type: 'API_REQUEST_FAILURE', payload: error, error: true});
