@@ -33,53 +33,56 @@ export function CreateUser({roleEntities}) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Input
-        labelText="Name"
-        id="name"
-        value={inputState.name}
-        onChange={handleInputChange}
-      />
-      <Input
-        labelText="Username"
-        id="username"
-        value={inputState.username}
-        onChange={handleInputChange}
-      />
-      <Input
-        labelText="Email"
-        id="email"
-        value={inputState.email}
-        onChange={handleInputChange}
-        type="email"
-      />
-      <Input
-        labelText="Telephone"
-        id="phone"
-        value={inputState.phone}
-        onChange={handleInputChange}
-        type="tel"
-      />
-      <Input
-        labelText="Website"
-        id="website"
-        value={inputState.website}
-        onChange={handleInputChange}
-      />
-      <Select
-        value={inputState.role}
-        onChange={handleInputChange}
-        id="role"
-        labelText="Select a role"
-      >
-        {Object.entries(roleEntities).map(([id, role]) => {
-          return (
-            <option key={id} value={id}>
-              {role.title}
-            </option>
-          );
-        })}
-      </Select>
-      <button>Create</button>
+      <fieldset>
+        <legend>Create a new user</legend>
+        <Input
+          labelText="Name"
+          id="name"
+          value={inputState.name}
+          onChange={handleInputChange}
+        />
+        <Input
+          labelText="Username"
+          id="username"
+          value={inputState.username}
+          onChange={handleInputChange}
+        />
+        <Input
+          labelText="Email"
+          id="email"
+          value={inputState.email}
+          onChange={handleInputChange}
+          type="email"
+        />
+        <Input
+          labelText="Telephone"
+          id="phone"
+          value={inputState.phone}
+          onChange={handleInputChange}
+          type="tel"
+        />
+        <Input
+          labelText="Website"
+          id="website"
+          value={inputState.website}
+          onChange={handleInputChange}
+        />
+        <Select
+          value={inputState.role}
+          onChange={handleInputChange}
+          id="role"
+          labelText="Select a role"
+        >
+          {Object.entries(roleEntities).map(([id, role]) => {
+            return (
+              <option key={id} value={id}>
+                {role.title}
+              </option>
+            );
+          })}
+        </Select>
+        <button>Create</button>
+      </fieldset>
     </form>
   );
 }
