@@ -2,6 +2,7 @@
 
 exports[`handle no state being passed 1`] = `
 Object {
+  "role": Object {},
   "users": Object {},
 }
 `;
