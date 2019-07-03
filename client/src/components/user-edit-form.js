@@ -7,6 +7,7 @@ export function UserEditForm({
   legendText,
   buttonText,
   onSubmit,
+  clearOnSubmit = false,
   initialInputValues,
 }) {
   const [inputState, setInputState] = useState(initialInputValues);
@@ -31,7 +32,10 @@ export function UserEditForm({
       ...inputState,
       role: roleEntities[inputState.role],
     };
-    onSubmit(dispatch, formData).then(clearForm);
+    onSubmit(dispatch, formData);
+    if (clearOnSubmit) {
+      clearForm();
+    }
   };
 
   const textInputs = [

@@ -21,6 +21,7 @@ export function CreateUser({roleEntities}) {
       initialInputValues={initialInputValues}
       onSubmit={onSubmit}
       roleEntities={roleEntities}
+      clearOnSubmit
     />
   );
 }
