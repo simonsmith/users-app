@@ -3,6 +3,7 @@ import axios from 'axios';
 import 'jest-dom/extend-expect';
 import {cleanup} from '@testing-library/react';
 import {renderWithStore} from '../test-util/render-with-store';
+import createStore from '../store/create';
 import {UserManager} from './user-manager';
 
 jest.mock('axios');
@@ -39,16 +40,18 @@ const response = [
 ];
 
 test('initally renders just a create user form and no users', () => {
+  const store = createStore();
   axios.mockResolvedValue({data: []});
-  const {getByText, queryAllByText} = renderWithStore(<UserManager />);
+  const {getByText, queryAllByText} = renderWithStore(<UserManager />, store);
   const formLegend = getByText('Create a new user');
   expect(formLegend).toBeInTheDocument();
   expect(queryAllByText('foo.com')).toHaveLength(0);
 });
 
 test('renders a list of users from the store', async () => {
+  const store = createStore();
   axios.mockResolvedValue({data: response});
-  const {findAllByText} = renderWithStore(<UserManager />);
+  const {findAllByText} = renderWithStore(<UserManager />, store);
   const userElements = await findAllByText('foo.com');
   expect(userElements).toHaveLength(2);
 });
