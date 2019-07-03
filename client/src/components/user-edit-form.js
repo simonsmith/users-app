@@ -52,6 +52,7 @@ export function UserEditForm({
         <legend>{legendText}</legend>
         {textInputs.map(input => (
           <Input
+            required
             key={input.id}
             labelText={input.label}
             id={input.id}

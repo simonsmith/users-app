@@ -8,7 +8,7 @@ export function UserList({userIds, userEntities, roleEntities}) {
         const userData = userEntities[userId];
         return (
           <li key={userId}>
-            <User {...userData} role={roleEntities[userData.role]} />
+            <User {...userData} roleEntities={roleEntities} />
           </li>
         );
       })}
