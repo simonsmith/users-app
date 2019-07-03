@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`submitting the form calls the update user action and switches back to user display 1`] = `
+Array [
+  Array [
+    "123345",
+    Object {
+      "avatar": "avatar.png",
+      "email": "me@test.com",
+      "id": "123345",
+      "name": "foo",
+      "role": Object {
+        "title": "developer",
+      },
+      "username": "fooer",
+      "website": "foo.com",
+    },
+  ],
+]
+`;
