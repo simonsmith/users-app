@@ -1,9 +1,11 @@
 import {
   requestAllUsers,
   createNewUser,
+  updateSingleUser,
   usersReducer,
   FETCH_USERS_SUCCESS,
   CREATE_USER,
+  UPDATE_USER,
   FETCH_USERS,
 } from './users';
 import {apiRequest} from './middleware/api';
@@ -28,6 +30,18 @@ describe('requestAllUsers action creator', () => {
     requestAllUsers();
     const {onSuccess} = apiRequest.mock.calls[0][1];
     expect(onSuccess({data})).toMatchSnapshot();
+  });
+});
+
+describe('updateSingleUser action creator', () => {
+  test('calls apiRequest with the correct arguments', () => {
+    updateSingleUser('123', {name: 'simon', email: 'me@foo.com'});
+    expect(apiRequest).toHaveBeenCalledWith('/users/123', {
+      onSuccess: expect.any(Function),
+      type: UPDATE_USER,
+      method: 'PUT',
+      data: {name: 'simon', email: 'me@foo.com'},
+    });
   });
 });
 
