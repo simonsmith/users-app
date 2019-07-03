@@ -7,14 +7,16 @@ export function UserList({userIds, userEntities, roleEntities}) {
   }
   return (
     <ul data-testid="user-list">
-      {userIds.map(userId => {
-        const userData = userEntities[userId];
-        return (
-          <li key={userId}>
-            <User {...userData} roleEntities={roleEntities} />
-          </li>
-        );
-      })}
+      {userIds
+        .map(userId => {
+          const userData = userEntities[userId];
+          return (
+            <li key={userId}>
+              <User {...userData} roleEntities={roleEntities} />
+            </li>
+          );
+        })
+        .reverse()}
     </ul>
   );
 }
