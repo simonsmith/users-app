@@ -24,7 +24,7 @@ export function User(props) {
 
 function UserDisplay({
   name,
-  avatar,
+  avatar = 'https://via.placeholder.com/100',
   username,
   website,
   email,
