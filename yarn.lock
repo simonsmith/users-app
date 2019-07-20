@@ -1050,6 +1050,11 @@
   resolved "https://registry.yarnpkg.com/@sheerun/mutationobserver-shim/-/mutationobserver-shim-0.3.2.tgz#8013f2af54a2b7d735f71560ff360d3a8176a87b"
   integrity sha512-vTCdPp/T/Q3oSqwHmZ5Kpa9oI7iLtGl3RQaA/NyLHikvcrPxACkkKVr/XzkSPJWXHRhKGzVvb0urJsbMlRxi1Q==
 
+"@simonsmith/redux-api-middleware@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@simonsmith/redux-api-middleware/-/redux-api-middleware-1.0.0.tgz#25c2f2dd36462f62e36dad47a9681a1836075bb7"
+  integrity sha512-o5x6+e7FR0zXWFR48isJjSPSoxD0XWlEdKtKvLxf69pD1ubX3BLA6JRs+8HhrfaMRO5kAZ4s1bsLTgvCf7Jqng==
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"

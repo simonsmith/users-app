@@ -1,6 +1,6 @@
 import {createReducer} from 'redux-starter-kit';
 import {normalize, schema} from 'normalizr';
-import {apiRequest} from './middleware/api';
+import {apiRequest} from '@simonsmith/redux-api-middleware';
 
 export const FETCH_USERS = 'FETCH_USERS';
 export const CREATE_USER = 'CREATE_USER';

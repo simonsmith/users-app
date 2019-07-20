@@ -8,9 +8,9 @@ import {
   UPDATE_USER,
   FETCH_USERS,
 } from './users';
-import {apiRequest} from './middleware/api';
+import {apiRequest} from '@simonsmith/redux-api-middleware';
 
-jest.mock('./middleware/api');
+jest.mock('@simonsmith/redux-api-middleware');
 
 describe('requestAllUsers action creator', () => {
   test('calls apiRequest with the correct arguments', () => {
